@@ -1,0 +1,36 @@
+﻿@model IEnumerable<CinemaTicketingSystem.Domain.Identity.CinemaTicketsAppUser>
+
+@{
+    ViewBag.Title = "All Users";
+}
+
+<div class="container">
+
+    <h1>All Users</h1>
+    <a asp-action="ImportUsers" asp-controller="User" class="btn btn-success mb-3">
+            Import Users
+    </a>
+
+    @if (Model.Any())
+    {
+        foreach(var user in Model)
+        {
+            <div class="card mb-3">
+                <div class="card-header">
+                    Role: @user.Role
+                </div>
+                <div class="card-body">
+                    <h5>@user.UserName</h5>
+                </div>
+                <div class="card-footer">
+                    <a asp-action="ManageUserRole" asp-controller="User" asp-route-userId="@user.Id" class="btn btn-danger">Edit Role</a>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <h5>No Users Found</h5>
+    }
+
+</div>

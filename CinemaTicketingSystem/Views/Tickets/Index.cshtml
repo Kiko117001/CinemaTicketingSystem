@@ -1,0 +1,63 @@
+﻿@model List<CinemaTicketingSystem.Domain.Entities.Ticket>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container">
+    <h1>Available tickets</h1>
+        @if (User.IsInRole("Admin"))
+        {
+                <div class="row">
+                    <a class="btn btn-success" asp-action="Create">Insert New Ticket</a>
+                </div>
+                <div class="form-group row mt-3">
+                    <input type="text" class="form-control ml-0 col-3" placeholder="Enter Genre - ex. Action" id="genre" name="genre" />
+                    <a class="btn btn-outline-danger ml-3 col-3" asp-controller="Tickets" asp-action="ExportAllTickets">Export Tickets</a>
+                </div>
+                <div class="row">
+                    <input type="date" class="form-control" style="width:150px;">
+                </div>
+        }
+    
+    
+       @for (int i = 0; i < Model.Count; i++)
+       {
+           var item = Model[i];
+
+           if(i % 3 == 0)
+           {
+               @:<div class="row">
+           }
+
+        <div class="col-md-3 m-4">
+            <div class="card" style="width: 18rem; height: 30rem;">
+                <img class="card-img-top" src="@item.TicketImage" style="height: 50%;" alt="Image for product!">
+
+                <div class="card-body">
+                    <h3 class="card-title">Movie: <i>@item.TicketName</i></h3>
+                    <p class="card-text"><i>Genre:</i> @item.TicketGenre</p>
+                    
+                    
+                    <h6><i>Price:</i> <span class="text-success">$@item.TicketPrice</span></h6>
+                </div>
+
+                <div class="card-footer">
+                    <a asp-controller="Tickets" asp-action="AddTicketToCart" asp-route-id="@item.Id" class="btn btn-info">Add to Cart</a>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <a asp-controller="Tickets" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-secondary">Edit</a>
+                    }
+                </div>
+            </div>
+        </div>
+
+
+           if(i % 3 == 2)
+           {
+               @:</div>
+           }
+       }
+</div>
